@@ -26,3 +26,9 @@ object NativeAddDemo1
 
 @Serializable
 object NativeAddDemo2
+
+@Serializable
+object NativeAddDemo3
+
+@Serializable
+object NativeAddDemo4

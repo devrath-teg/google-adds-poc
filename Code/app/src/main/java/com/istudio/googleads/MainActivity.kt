@@ -23,16 +23,22 @@ import com.istudio.googleads.modules.interstitial_adds.InterstitialScreen
 import com.istudio.googleads.modules.native_adds.NativeAddsScreen
 import com.istudio.googleads.modules.native_adds.demos.NativeAddDemo1Screen
 import com.istudio.googleads.modules.native_adds.demos.NativeAddDemo2Screen
+import com.istudio.googleads.modules.native_adds.demos.NativeAddDemo3Screen
+import com.istudio.googleads.modules.native_adds.demos.demo4.NativeAddDemo4Screen
 import com.istudio.googleads.modules.native_adds.selection.NativeAddsSelectionScreen
 import com.istudio.googleads.navigation.BannerAdds
 import com.istudio.googleads.navigation.NativeAddDemo1
 import com.istudio.googleads.navigation.NativeAddDemo2
+import com.istudio.googleads.navigation.NativeAddDemo3
+import com.istudio.googleads.navigation.NativeAddDemo4
 import com.istudio.googleads.navigation.NativeAdds
 import com.istudio.googleads.navigation.NativeAddsSelection
 import com.istudio.googleads.navigation.SelectionCategory
 import com.istudio.googleads.navigation.SelectionScreen
 import com.istudio.googleads.ui.theme.GoogleAdsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +48,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             GoogleAdsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CurrentScreen(
+                    /*CurrentScreen(
                         modifier = Modifier.padding(innerPadding),
                         displayMetrics = density
-                    )
+                    )*/
+                    NativeAddDemo4Screen()
                 }
             }
         }
@@ -113,6 +120,8 @@ fun CurrentScreen(
                 when(action){
                     SelectionCategory.NativeAddDemo1 ->  navController.navigate(NativeAddDemo1)
                     SelectionCategory.NativeAddDemo2 -> navController.navigate(NativeAddDemo2)
+                    SelectionCategory.NativeAddDemo3 -> navController.navigate(NativeAddDemo3)
+                    SelectionCategory.NativeAddDemo4 -> navController.navigate(NativeAddDemo4)
                     else -> {}
                 }
             })
@@ -126,6 +135,12 @@ fun CurrentScreen(
         }
         composable<NativeAddDemo2> {
             NativeAddDemo2Screen()
+        }
+        composable<NativeAddDemo3> {
+            NativeAddDemo3Screen()
+        }
+        composable<NativeAddDemo4> {
+            NativeAddDemo4Screen()
         }
         // --------> Native Add Demo Screens
 

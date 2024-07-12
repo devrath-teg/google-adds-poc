@@ -32,5 +32,13 @@ fun NativeAddsSelectionScreen(
         AppButton(text = "Native Add Demo-2", onClick = {
             onClickButtonAction.invoke(SelectionCategory.NativeAddDemo2)
         })
+        Spacer(modifier = rowSpacing)
+        AppButton(text = "Native Add Demo-3", onClick = {
+            onClickButtonAction.invoke(SelectionCategory.NativeAddDemo3)
+        })
+        Spacer(modifier = rowSpacing)
+        AppButton(text = "Native Add Demo-4", onClick = {
+            onClickButtonAction.invoke(SelectionCategory.NativeAddDemo4)
+        })
     }
 }

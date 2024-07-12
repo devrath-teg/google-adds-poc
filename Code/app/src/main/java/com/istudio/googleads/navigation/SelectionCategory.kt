@@ -10,4 +10,6 @@ sealed interface SelectionCategory {
     // Native Add Selection
     data object NativeAddDemo1 : SelectionCategory
     data object NativeAddDemo2 : SelectionCategory
+    data object NativeAddDemo3 : SelectionCategory
+    data object NativeAddDemo4 : SelectionCategory
 }
