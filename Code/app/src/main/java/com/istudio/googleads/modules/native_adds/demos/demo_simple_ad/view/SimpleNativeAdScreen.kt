@@ -1,6 +1,5 @@
-package com.istudio.googleads.modules.native_adds.demos.demo4
+package com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.view
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,11 +10,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,15 +17,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
-import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.view.composables.LiskovAdView
 
 @Composable
-fun NativeAddDemo4Screen(modifier: Modifier = Modifier) {
+fun SimpleNativeAdScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -46,13 +37,13 @@ fun NativeAddDemo4Screen(modifier: Modifier = Modifier) {
 @Composable
 private fun NativeAdView(
     modifier: Modifier = Modifier,
-    vm: NativeAddDemo4ScreenViewModel = viewModel(),
+    vm: SimpleNativeAdScreenViewModel = viewModel(),
 ) {
-
+    val context = LocalContext.current
     val state = vm.nativeAdState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        vm.loadAd().loadAd(AdRequest.Builder().build())
+        vm.loadAd(context)
     }
 
     if(state.value.isLoading){

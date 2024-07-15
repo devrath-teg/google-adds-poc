@@ -25,20 +25,12 @@ fun NativeAddsSelectionScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = rowSpacing)
-        AppButton(text = "Native AddDemo-1", onClick = {
-           onClickButtonAction.invoke(SelectionCategory.NativeAddDemo1)
+        AppButton(text = "Simple Native Add Demo", onClick = {
+           onClickButtonAction.invoke(SelectionCategory.SimpleNativeAdScreen)
         })
         Spacer(modifier = rowSpacing)
-        AppButton(text = "Native Add Demo-2", onClick = {
-            onClickButtonAction.invoke(SelectionCategory.NativeAddDemo2)
-        })
-        Spacer(modifier = rowSpacing)
-        AppButton(text = "Native Add Demo-3", onClick = {
-            onClickButtonAction.invoke(SelectionCategory.NativeAddDemo3)
-        })
-        Spacer(modifier = rowSpacing)
-        AppButton(text = "Native Add Demo-4", onClick = {
-            onClickButtonAction.invoke(SelectionCategory.NativeAddDemo4)
+        AppButton(text = "Multiple Native Adds Demo", onClick = {
+            onClickButtonAction.invoke(SelectionCategory.MultipleNativeAdScreen)
         })
     }
 }

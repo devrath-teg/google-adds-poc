@@ -1,4 +1,4 @@
-package com.istudio.googleads.modules.native_adds.demos.demo4
+package com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.view.composables
 
 import android.widget.ImageView
 import androidx.compose.foundation.background
@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
+import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.utils.NativeAdImageView
+import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.utils.NativeAdMediaView
+import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.utils.NativeAdViewCompose
+import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.utils.NativeAdViewLayout
 
 @Composable
 fun LiskovAdView(

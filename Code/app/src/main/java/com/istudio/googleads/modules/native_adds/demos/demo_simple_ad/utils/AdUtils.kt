@@ -1,4 +1,4 @@
-package com.istudio.googleads.modules.native_adds.demos.demo4
+package com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.utils
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater

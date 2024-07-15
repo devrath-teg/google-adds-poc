@@ -8,8 +8,6 @@ sealed interface SelectionCategory {
     data object RewardedInterstitialAdds : SelectionCategory
     data object AppOpenAdds : SelectionCategory
     // Native Add Selection
-    data object NativeAddDemo1 : SelectionCategory
-    data object NativeAddDemo2 : SelectionCategory
-    data object NativeAddDemo3 : SelectionCategory
-    data object NativeAddDemo4 : SelectionCategory
+    data object SimpleNativeAdScreen : SelectionCategory
+    data object MultipleNativeAdScreen : SelectionCategory
 }

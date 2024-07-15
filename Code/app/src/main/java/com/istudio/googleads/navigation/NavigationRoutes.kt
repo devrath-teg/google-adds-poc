@@ -22,10 +22,10 @@ object NativeAddsSelection
 
 
 @Serializable
-object NativeAddDemo1
+object SimpleNativeAdScreen
 
 @Serializable
-object NativeAddDemo2
+object MultipleNativeAdScreen
 
 @Serializable
 object NativeAddDemo3
