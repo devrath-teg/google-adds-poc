@@ -5,21 +5,23 @@ import kotlinx.serialization.Serializable
 @Serializable
 object SelectionScreen
 
-@Serializable
-object BannerAdds
+
 
 @Serializable
 object NativeAdds
 
 
 
+@Serializable
+object BannerAddsSelectionScreen
 
+@Serializable
+object SimpleBannerBannerAdds
 
 
 
 @Serializable
-object NativeAddsSelection
-
+object NativeAddsSelectionScreen
 
 @Serializable
 object SimpleNativeAdScreen
@@ -27,8 +29,3 @@ object SimpleNativeAdScreen
 @Serializable
 object MultipleNativeAdScreen
 
-@Serializable
-object NativeAddDemo3
-
-@Serializable
-object NativeAddDemo4

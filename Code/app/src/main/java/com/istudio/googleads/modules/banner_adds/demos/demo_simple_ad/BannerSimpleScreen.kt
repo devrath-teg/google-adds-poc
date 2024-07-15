@@ -1,4 +1,4 @@
-package com.istudio.googleads.modules.banner_adds
+package com.istudio.googleads.modules.banner_adds.demos.demo_simple_ad
 
 import android.util.DisplayMetrics
 import androidx.compose.foundation.background
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +20,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 @Composable
-fun BannerScreen(
+fun BannerSimpleScreen(
     modifier: Modifier = Modifier,
     displayMetrics: DisplayMetrics
 ) {
@@ -32,7 +31,6 @@ fun BannerScreen(
     ) {
         Spacer(modifier = Modifier.height(10.dp))
         AdmobBanner3(displayMetrics)
-        //AdmobBanner2()
         Spacer(modifier = Modifier.height(10.dp))
     }
 }
@@ -53,42 +51,6 @@ fun AdmobBanner3(displayMetrics: DisplayMetrics) {
             factory = { context ->
                 AdView(context).apply {
                     setAdSize(size)
-                    adUnitId = "ca-app-pub-3940256099942544/9214589741"
-                    loadAd(AdRequest.Builder().build())
-                }
-            }
-        )
-    }
-}
-
-
-@Composable
-fun AdmobBanner1(modifier: Modifier = Modifier) {
-    AndroidView(
-        factory = { context ->
-            AdView(context).apply {
-                setAdSize(AdSize.LARGE_BANNER)
-                adUnitId = "ca-app-pub-3940256099942544/6300978111"
-                loadAd(AdRequest.Builder().build())
-            }
-        }
-    )
-}
-
-
-@Composable
-fun AdmobBanner2() {
-    Column(
-        modifier = Modifier
-            .background(color = Color.Cyan),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        AndroidView(
-            factory = { context ->
-                AdView(context).apply {
-                    setAdSize(AdSize.MEDIUM_RECTANGLE)
                     adUnitId = "ca-app-pub-3940256099942544/9214589741"
                     loadAd(AdRequest.Builder().build())
                 }

@@ -10,4 +10,7 @@ sealed interface SelectionCategory {
     // Native Add Selection
     data object SimpleNativeAdScreen : SelectionCategory
     data object MultipleNativeAdScreen : SelectionCategory
+    // Banner Add Selection
+    data object SimpleBannerAdScreen : SelectionCategory
+    data object ListBannerAdScreen : SelectionCategory
 }

@@ -17,17 +17,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.istudio.googleads.modules.banner_adds.BannerScreen
+import com.istudio.googleads.modules.banner_adds.demos.demo_list_ad.BannerListActivity
+import com.istudio.googleads.modules.banner_adds.demos.demo_simple_ad.BannerSimpleScreen
+import com.istudio.googleads.modules.banner_adds.selection.BannerAddsSelectionScreen
 import com.istudio.googleads.modules.interstitial_adds.InterstitialScreen
-import com.istudio.googleads.modules.native_adds.NativeAddsScreen
 import com.istudio.googleads.modules.native_adds.demos.demo_multiple_ads.MultipleNativeAdScreen
 import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.view.SimpleNativeAdScreen
 import com.istudio.googleads.modules.native_adds.selection.NativeAddsSelectionScreen
-import com.istudio.googleads.navigation.BannerAdds
+import com.istudio.googleads.navigation.SimpleBannerBannerAdds
+import com.istudio.googleads.navigation.BannerAddsSelectionScreen
 import com.istudio.googleads.navigation.SimpleNativeAdScreen
 import com.istudio.googleads.navigation.MultipleNativeAdScreen
-import com.istudio.googleads.navigation.NativeAdds
-import com.istudio.googleads.navigation.NativeAddsSelection
+import com.istudio.googleads.navigation.NativeAddsSelectionScreen
 import com.istudio.googleads.navigation.SelectionCategory
 import com.istudio.googleads.navigation.SelectionScreen
 import com.istudio.googleads.ui.theme.GoogleAdsTheme
@@ -87,12 +88,12 @@ fun CurrentScreen(
         composable<SelectionScreen> {
             SelectionScreen(onClickButtonAction = { action ->
                 when(action){
-                    SelectionCategory.BannerAdds -> navController.navigate(BannerAdds)
+                    SelectionCategory.BannerAdds -> navController.navigate(BannerAddsSelectionScreen)
                     SelectionCategory.InterstitialAdds -> {
                         val intent = Intent(cxt, InterstitialScreen::class.java)
                         cxt.startActivity(intent)
                     }
-                    SelectionCategory.NativeAdds -> navController.navigate(NativeAddsSelection)
+                    SelectionCategory.NativeAdds -> navController.navigate(NativeAddsSelectionScreen)
                     else -> {
 
                     }
@@ -103,13 +104,32 @@ fun CurrentScreen(
 
 
         // --------> Main Screen
-        composable<BannerAdds> {
-            BannerScreen(displayMetrics = displayMetrics)
+        composable<BannerAddsSelectionScreen> {
+            BannerAddsSelectionScreen(onClickButtonAction = { action ->
+                when(action){
+                    SelectionCategory.SimpleBannerAdScreen ->  navController.navigate(SimpleBannerBannerAdds)
+                    SelectionCategory.ListBannerAdScreen -> {
+                        val intent = Intent(cxt, BannerListActivity::class.java)
+                        cxt.startActivity(intent)
+                    }
+                    else -> {}
+                }
+            })
         }
-        composable<NativeAdds> {
-            NativeAddsScreen()
+        // --------> Native Add Demo Screens
+        composable<SimpleBannerBannerAdds> {
+            BannerSimpleScreen(displayMetrics = displayMetrics)
         }
-        composable<NativeAddsSelection> {
+        // --------> Native Add Demo Screens
+
+
+
+
+
+
+
+
+        composable<NativeAddsSelectionScreen> {
             NativeAddsSelectionScreen(onClickButtonAction = { action ->
                 when(action){
                     SelectionCategory.SimpleNativeAdScreen ->  navController.navigate(SimpleNativeAdScreen)
@@ -119,7 +139,6 @@ fun CurrentScreen(
             })
         }
         // --------> Main Screen
-
 
         // --------> Native Add Demo Screens
         composable<SimpleNativeAdScreen> {

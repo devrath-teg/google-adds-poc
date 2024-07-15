@@ -1,4 +1,4 @@
-package com.istudio.googleads.modules.native_adds.selection
+package com.istudio.googleads.modules.banner_adds.selection
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import com.istudio.googleads.navigation.SelectionCategory
 import com.istudio.googleads.ui.utils.AppButton
 
 @Composable
-fun NativeAddsSelectionScreen(
+fun BannerAddsSelectionScreen(
     modifier: Modifier = Modifier,
     onClickButtonAction: (selection: SelectionCategory) -> Unit
 ) {
@@ -25,12 +25,12 @@ fun NativeAddsSelectionScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = rowSpacing)
-        AppButton(text = "Simple Native Add Demo", onClick = {
-           onClickButtonAction.invoke(SelectionCategory.SimpleNativeAdScreen)
+        AppButton(text = "Demo Simple", onClick = {
+           onClickButtonAction.invoke(SelectionCategory.SimpleBannerAdScreen)
         })
-       /* Spacer(modifier = rowSpacing)
-        AppButton(text = "Multiple Native Adds Demo", onClick = {
-            onClickButtonAction.invoke(SelectionCategory.MultipleNativeAdScreen)
-        })*/
+        Spacer(modifier = rowSpacing)
+        AppButton(text = "Demo List", onClick = {
+            onClickButtonAction.invoke(SelectionCategory.ListBannerAdScreen)
+        })
     }
 }
