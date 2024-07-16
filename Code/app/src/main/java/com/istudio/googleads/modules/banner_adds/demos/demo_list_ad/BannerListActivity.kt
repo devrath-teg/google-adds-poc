@@ -1,9 +1,7 @@
 package com.istudio.googleads.modules.banner_adds.demos.demo_list_ad
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -34,47 +32,62 @@ import java.io.InputStream
 import java.io.InputStreamReader
 
 class BannerListActivity : ComponentActivity() {
-    private val recyclerViewItems: MutableList<Any> = mutableStateListOf()
+
+    private val listItems: MutableList<Any> = mutableStateListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             GoogleAdsTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    RecyclerViewItemsList(recyclerViewItems)
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    ListComposable(listItems)
                 }
             }
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            addMenuItemsFromJson()
-            addBannerAds()
+            // Get a bunch of items and add it into the list collection
+            addDataFromDataSource()
+            // Add new placeholders of AD views that we will load in the next step
+            addBannerAdsToDataSet()
+            // Initialize the loading of adds
             loadBannerAds()
         }
     }
 
-    private val adWidth: Int
-        get() {
-            val displayMetrics = resources.displayMetrics
-            val adWidthPixels =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
-                    windowMetrics.bounds.width()
-                } else {
-                    displayMetrics.widthPixels
-                }
-            val density = displayMetrics.density
-            return (adWidthPixels / density).toInt()
+    private fun addDataFromDataSource() {
+        try {
+            val jsonDataString = readJsonDataFromFile()
+            val menuItemsJsonArray = JSONArray(jsonDataString)
+            for (i in 0 until menuItemsJsonArray.length()) {
+                val menuItemObject = menuItemsJsonArray.getJSONObject(i)
+                val menuItem = MenuItem(
+                    menuItemObject.getString("name"),
+                    menuItemObject.getString("description"),
+                    menuItemObject.getString("price"),
+                    menuItemObject.getString("category"),
+                    menuItemObject.getString("photo")
+                )
+                listItems.add(menuItem)
+            }
+        } catch (exception: IOException) {
+            Log.e(BannerListActivity::class.java.name, "Unable to parse JSON file.", exception)
+        } catch (exception: JSONException) {
+            Log.e(BannerListActivity::class.java.name, "Unable to parse JSON file.", exception)
         }
+    }
 
-    private fun addBannerAds() {
+    private fun addBannerAdsToDataSet() {
         var i = 0
-        while (i <= recyclerViewItems.size) {
-            val adView = AdView(this@BannerListActivity)
-            adView.setAdSize(AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(this, adWidth))
-            adView.adUnitId = AD_UNIT_ID
-            recyclerViewItems.add(i, adView)
+        while (i <= listItems.size) {
+            // Prepare the add
+            val adView = prepareAdd()
+            // On every span of item duration, We add the add
+            listItems.add(i, adView)
             i += ITEMS_PER_AD
         }
     }
@@ -84,11 +97,10 @@ class BannerListActivity : ComponentActivity() {
     }
 
     private fun loadBannerAd(index: Int) {
-        if (index >= recyclerViewItems.size) {
+        if (index >= listItems.size) {
             return
         }
-        val item = recyclerViewItems[index] as? AdView
-            ?: throw ClassCastException("Expected item at index $index to be a banner ad.")
+        val item = listItems[index] as? AdView ?: throw ClassCastException("Expected item at index $index to be a banner ad.")
 
         item.adListener = object : AdListener() {
             override fun onAdLoaded() {
@@ -114,27 +126,7 @@ class BannerListActivity : ComponentActivity() {
         item.loadAd(AdRequest.Builder().build())
     }
 
-    private fun addMenuItemsFromJson() {
-        try {
-            val jsonDataString = readJsonDataFromFile()
-            val menuItemsJsonArray = JSONArray(jsonDataString)
-            for (i in 0 until menuItemsJsonArray.length()) {
-                val menuItemObject = menuItemsJsonArray.getJSONObject(i)
-                val menuItem = MenuItem(
-                    menuItemObject.getString("name"),
-                    menuItemObject.getString("description"),
-                    menuItemObject.getString("price"),
-                    menuItemObject.getString("category"),
-                    menuItemObject.getString("photo")
-                )
-                recyclerViewItems.add(menuItem)
-            }
-        } catch (exception: IOException) {
-            Log.e(BannerListActivity::class.java.name, "Unable to parse JSON file.", exception)
-        } catch (exception: JSONException) {
-            Log.e(BannerListActivity::class.java.name, "Unable to parse JSON file.", exception)
-        }
-    }
+
 
     @Throws(IOException::class)
     private fun readJsonDataFromFile(): String {
@@ -150,6 +142,18 @@ class BannerListActivity : ComponentActivity() {
         return builder.toString()
     }
 
+    private fun prepareAdd(): AdView {
+        val adView = AdView(this@BannerListActivity)
+        adView.setAdSize(
+            AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(
+                this,
+                AdSize.FULL_WIDTH
+            )
+        )
+        adView.adUnitId = AD_UNIT_ID
+        return adView
+    }
+
     companion object {
         private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/9214589741"
         const val ITEMS_PER_AD = 8
@@ -158,7 +162,7 @@ class BannerListActivity : ComponentActivity() {
 }
 
 @Composable
-fun RecyclerViewItemsList(items: List<Any>) {
+fun ListComposable(items: List<Any>) {
     LazyColumn {
         items(items) { item ->
             when (item) {
@@ -197,9 +201,7 @@ fun MenuItemView(menuItem: MenuItem) {
 @Composable
 fun AdViewContainer(adView: AdView) {
     AndroidView(
-        factory = { context ->
-            adView
-        },
+        factory = { context -> adView },
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
