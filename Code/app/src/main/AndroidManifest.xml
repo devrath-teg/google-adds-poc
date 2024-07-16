@@ -26,7 +26,6 @@
         </activity>
 
         <activity android:name=".modules.interstitial_adds.InterstitialScreen"/>
-        <activity android:name=".modules.banner_adds.demos.demo_list_ad.BannerListActivity"/>
 
         <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data

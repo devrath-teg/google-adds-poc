@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.istudio.googleads.modules.banner_adds.demos.demo_list_ad.BannerListActivity
+import com.istudio.googleads.modules.banner_adds.demos.demo_list_ad.view.BannerListScreen
 import com.istudio.googleads.modules.banner_adds.demos.demo_simple_ad.BannerSimpleScreen
 import com.istudio.googleads.modules.banner_adds.selection.BannerAddsSelectionScreen
 import com.istudio.googleads.modules.interstitial_adds.InterstitialScreen
@@ -26,6 +26,7 @@ import com.istudio.googleads.modules.native_adds.demos.demo_simple_ad.view.Simpl
 import com.istudio.googleads.modules.native_adds.selection.NativeAddsSelectionScreen
 import com.istudio.googleads.navigation.SimpleBannerBannerAdds
 import com.istudio.googleads.navigation.BannerAddsSelectionScreen
+import com.istudio.googleads.navigation.BannerListAdds
 import com.istudio.googleads.navigation.SimpleNativeAdScreen
 import com.istudio.googleads.navigation.MultipleNativeAdScreen
 import com.istudio.googleads.navigation.NativeAddsSelectionScreen
@@ -108,10 +109,7 @@ fun CurrentScreen(
             BannerAddsSelectionScreen(onClickButtonAction = { action ->
                 when(action){
                     SelectionCategory.SimpleBannerAdScreen ->  navController.navigate(SimpleBannerBannerAdds)
-                    SelectionCategory.ListBannerAdScreen -> {
-                        val intent = Intent(cxt, BannerListActivity::class.java)
-                        cxt.startActivity(intent)
-                    }
+                    SelectionCategory.ListBannerAdScreen -> navController.navigate(BannerListAdds)
                     else -> {}
                 }
             })
@@ -120,12 +118,11 @@ fun CurrentScreen(
         composable<SimpleBannerBannerAdds> {
             BannerSimpleScreen(displayMetrics = displayMetrics)
         }
+
+        composable<BannerListAdds> {
+            BannerListScreen()
+        }
         // --------> Native Add Demo Screens
-
-
-
-
-
 
 
 

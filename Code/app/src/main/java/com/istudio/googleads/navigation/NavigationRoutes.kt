@@ -18,6 +18,9 @@ object BannerAddsSelectionScreen
 @Serializable
 object SimpleBannerBannerAdds
 
+@Serializable
+object BannerListAdds
+
 
 
 @Serializable

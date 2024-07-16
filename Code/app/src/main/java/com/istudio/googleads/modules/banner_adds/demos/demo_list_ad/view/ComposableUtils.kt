@@ -1,4 +1,4 @@
-package com.istudio.googleads.modules.banner_adds.demos.demo_list_ad
+package com.istudio.googleads.modules.banner_adds.demos.demo_list_ad.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.AdView
+import com.istudio.googleads.modules.banner_adds.demos.demo_list_ad.MenuItem
 
 @Composable
 fun ListComposable(items: List<Any>) {
