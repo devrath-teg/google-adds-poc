@@ -30,6 +30,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.util.Locale
 
 class BannerListActivity : ComponentActivity() {
 
@@ -45,11 +46,15 @@ class BannerListActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     ListComposable(listItems)
+                    BannerListEffect()
                 }
             }
         }
+    }
 
-        lifecycleScope.launch(Dispatchers.Main) {
+    @Composable
+    private fun BannerListEffect() {
+        LaunchedEffect(Unit) {
             // Get a bunch of items and add it into the list collection
             addDataFromDataSource()
             // Add new placeholders of AD views that we will load in the next step
@@ -61,19 +66,7 @@ class BannerListActivity : ComponentActivity() {
 
     private fun addDataFromDataSource() {
         try {
-            val jsonDataString = readJsonDataFromFile()
-            val menuItemsJsonArray = JSONArray(jsonDataString)
-            for (i in 0 until menuItemsJsonArray.length()) {
-                val menuItemObject = menuItemsJsonArray.getJSONObject(i)
-                val menuItem = MenuItem(
-                    menuItemObject.getString("name"),
-                    menuItemObject.getString("description"),
-                    menuItemObject.getString("price"),
-                    menuItemObject.getString("category"),
-                    menuItemObject.getString("photo")
-                )
-                listItems.add(menuItem)
-            }
+            listItems.addAll(MockMenuItem.menuItems)
         } catch (exception: IOException) {
             Log.e(BannerListActivity::class.java.name, "Unable to parse JSON file.", exception)
         } catch (exception: JSONException) {
@@ -110,6 +103,7 @@ class BannerListActivity : ComponentActivity() {
 
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 val error = String.format(
+                    Locale.getDefault(),  // Specify the locale explicitly
                     "domain: %s, code: %d, message: %s",
                     loadAdError.domain,
                     loadAdError.code,
@@ -124,22 +118,6 @@ class BannerListActivity : ComponentActivity() {
         }
 
         item.loadAd(AdRequest.Builder().build())
-    }
-
-
-
-    @Throws(IOException::class)
-    private fun readJsonDataFromFile(): String {
-        var inputStream: InputStream? = null
-        val builder = StringBuilder()
-        try {
-            inputStream = resources.openRawResource(R.raw.menu_items_json)
-            val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
-            bufferedReader.forEachLine { builder.append(it) }
-        } finally {
-            inputStream?.close()
-        }
-        return builder.toString()
     }
 
     private fun prepareAdd(): AdView {
@@ -161,70 +139,5 @@ class BannerListActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun ListComposable(items: List<Any>) {
-    LazyColumn {
-        items(items) { item ->
-            when (item) {
-                is MenuItem -> MenuItemView(menuItem = item)
-                is AdView -> AdViewContainer(adView = item)
-            }
-        }
-    }
-}
-
-@Composable
-fun MenuItemView(menuItem: MenuItem) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            ImageView(menuItem.imageName)
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(text = menuItem.name, style = MaterialTheme.typography.titleLarge)
-                Text(text = menuItem.price, style = MaterialTheme.typography.titleMedium)
-                Text(text = menuItem.category, style = MaterialTheme.typography.titleSmall)
-                Text(text = menuItem.description, style = MaterialTheme.typography.bodyMedium)
-            }
-        }
-    }
-}
-
-@Composable
-fun AdViewContainer(adView: AdView) {
-    AndroidView(
-        factory = { context -> adView },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-    )
-}
-
-@Composable
-fun ImageView(imageName: String) {
-    val context = LocalContext.current
-    val imageResId = remember { context.resources.getIdentifier(imageName, "drawable", context.packageName) }
-    androidx.compose.foundation.Image(
-        painter = painterResource(id = imageResId),
-        contentDescription = null,
-        modifier = Modifier.size(64.dp)
-    )
-}
-
-class MenuItem(
-    val name: String,
-    val description: String,
-    val price: String,
-    val category: String,
-    val imageName: String,
-)
 
 
